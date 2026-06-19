@@ -4,7 +4,7 @@ import { Box, Typography } from "@mui/material";
 import useCategories from "../../hooks/useCategories";
 
 export default function Categories() {
-  const { data: categories, isLoading, error } = useCategories();
+    const { data: categories, isLoading, error } = useCategories();
   if (isLoading) {
     return <div>Loading...</div>;
   }
