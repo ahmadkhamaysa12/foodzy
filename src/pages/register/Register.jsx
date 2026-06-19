@@ -1,16 +1,32 @@
 import React from "react";
 import { Box, Typography, TextField, Paper, Button } from "@mui/material";
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import axios from "axios";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { registerSchema } from "../validations/registerSchems";
 
 export default function Register() {
-  const { register, handleSubmit } = useForm();
+  const [serverError, setServerError] = React.useState([]);
 
-  const RegisterForm = async(data) => {
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors,isSubmitting },
+  } = useForm({
+    resolver: yupResolver(registerSchema),
+  });
+
+  const RegisterForm = async (data) => {
     try {
-        const response = await axios.post(`${import.meta.env.VITE_BURL}/auth/Account/Register`, data);
+      const response = await axios.post(
+        `${import.meta.env.VITE_BURL}/auth/Account/Register`,
+        data,
+      );
     } catch (error) {
-        console.error("Error registering user:", error);
+      console.log(error.response.data.errors);
+      setServerError(error.response.data.errors);
     }
   };
 
@@ -19,6 +35,13 @@ export default function Register() {
       <Typography component="h1" variant="h2">
         Register
       </Typography>
+
+    {console.log(serverError)}
+    {serverError.length > 0 ? serverError.map((error) => (
+        <Typography color="error">
+          {error}
+        </Typography>
+      )) : null}
 
       <Box
         onSubmit={handleSubmit(RegisterForm)}
@@ -37,6 +60,8 @@ export default function Register() {
             label="Full Name"
             variant="outlined"
             fullWidth
+            error={!!errors.fullName}
+            helperText={errors.fullName?.message}
           />
         </Paper>
 
@@ -47,6 +72,8 @@ export default function Register() {
             label="Username"
             variant="outlined"
             fullWidth
+            error={!!errors.username}
+            helperText={errors.username?.message}
           />
         </Paper>
 
@@ -58,6 +85,8 @@ export default function Register() {
             variant="outlined"
             type="email"
             fullWidth
+            error={!!errors.email}
+            helperText={errors.email?.message}
           />
         </Paper>
 
@@ -69,6 +98,8 @@ export default function Register() {
             variant="outlined"
             type="password"
             fullWidth
+            error={!!errors.password}
+            helperText={errors.password?.message}
           />
         </Paper>
 
@@ -79,11 +110,13 @@ export default function Register() {
             label="Phone Number"
             variant="outlined"
             fullWidth
+            error={!!errors.phoneNumber}
+            helperText={errors.phoneNumber?.message}
           />
         </Paper>
         <Paper sx={{ p: 1, bgcolor: "#ffffff" }}>
-          <Button variant="outlined" fullWidth type="submit">
-            Outlined
+          <Button variant="outlined" fullWidth type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Registering..." : "Register"}
           </Button>
         </Paper>
       </Box>
