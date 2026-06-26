@@ -49,12 +49,12 @@ const SearchInput = styled(InputBase)(() => ({
 }));
 
 const navLinks = [
-  { label: "Home", hasArrow: false },
-  { label: "Category", hasArrow: true },
-  { label: "Products", hasArrow: true },
-  { label: "Pages", hasArrow: true },
-  { label: "Blog", hasArrow: true },
-  { label: "Elements", hasArrow: true },
+  { label: "Home" },
+  { label: "Category"},
+  { label: "Products"},
+  { label: "Pages" },
+  { label: "Register" },
+  { label: "Elements" },
 ];
 export default function Navbar() {
   const [category, setCategory] = useState("all");
