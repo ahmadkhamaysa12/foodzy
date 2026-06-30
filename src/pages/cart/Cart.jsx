@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect } from 'react'
-import axiosToken from '../../api/axiosToken,jsx'
+import axiosToken from '../../api/axiosToken.js'
 
 
 export default function Cart() {

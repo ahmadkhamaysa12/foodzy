@@ -27,7 +27,7 @@ export default function Login() {
       console.log(response.data.accessToken);
       localStorage.setItem("accessToken", response.data.accessToken);
     } catch (error) {
-      
+
       setServerError(error.response?.data?.errors ?? []);
     }
   };
