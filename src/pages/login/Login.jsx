@@ -24,8 +24,10 @@ export default function Login() {
         `${import.meta.env.VITE_BURL}/auth/Account/Login`,
         data,
       );
+      console.log(response.data.accessToken);
+      localStorage.setItem("accessToken", response.data.accessToken);
     } catch (error) {
-      console.log(error.response.data.errors);
+      
       setServerError(error.response?.data?.errors ?? []);
     }
   };
@@ -36,7 +38,6 @@ export default function Login() {
         Login
       </Typography>
 
-      {console.log(serverError)}
       {serverError.length > 0 ? serverError.map((error) => (
         <Typography color="error">
           {error}
